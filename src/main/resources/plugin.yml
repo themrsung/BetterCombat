@@ -1,0 +1,6 @@
+name: BetterCombat
+version: '${project.version}'
+main: pegasus.bettercombat.BetterCombat
+api-version: '1.20'
+depend:
+  - Vault
