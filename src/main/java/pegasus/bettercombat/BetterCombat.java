@@ -2,8 +2,10 @@ package pegasus.bettercombat;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.util.TriState;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -138,7 +140,12 @@ public final class BetterCombat extends JavaPlugin {
         //
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            Bukkit.getOnlinePlayers().forEach(player -> player.setAllowFlight(economy.has(player, FLIGHT_BALANCE)));
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                if (player.getGameMode() == GameMode.CREATIVE) return;
+
+                player.setAllowFlight(economy.has(player, FLIGHT_BALANCE));
+                player.setFlyingFallDamage(TriState.TRUE);
+            });
         }, 20, 20);
     }
 }
