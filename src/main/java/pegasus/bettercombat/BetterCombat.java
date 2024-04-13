@@ -40,6 +40,11 @@ public final class BetterCombat extends JavaPlugin {
      */
     private static final double GOD_MODE_FOOD_COST = 50000d;
 
+    /**
+     * Players with a balance above this amount will be able to fly.
+     */
+    private static final double FLIGHT_BALANCE = 1000000000d;
+
     @Override
     public void onEnable() {
 
@@ -127,5 +132,13 @@ public final class BetterCombat extends JavaPlugin {
             }
 
         }, this);
+
+        //
+        // Flight check
+        //
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            Bukkit.getOnlinePlayers().forEach(player -> player.setAllowFlight(economy.has(player, FLIGHT_BALANCE)));
+        }, 20, 20);
     }
 }
